@@ -1,0 +1,87 @@
+[
+  {
+    "title": "Email Regex Pattern",
+    "description": "Basic email validation regex pattern",
+    "code": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+    "category": "Regex",
+    "tags": ["regex", "email", "validation"]
+  },
+  {
+    "title": "URL Regex Pattern",
+    "description": "Match HTTP/HTTPS URLs",
+    "code": "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)",
+    "category": "Regex",
+    "tags": ["regex", "url", "validation"]
+  },
+  {
+    "title": "Git Undo Last Commit",
+    "description": "Undo the last commit but keep changes",
+    "code": "git reset --soft HEAD~1",
+    "category": "Git",
+    "tags": ["git", "undo", "commit"]
+  },
+  {
+    "title": "Git Stash with Message",
+    "description": "Stash changes with a descriptive message",
+    "code": "git stash save \"your message here\"",
+    "category": "Git",
+    "tags": ["git", "stash", "save"]
+  },
+  {
+    "title": "Git Delete Remote Branch",
+    "description": "Delete a branch from remote repository",
+    "code": "git push origin --delete branch-name",
+    "category": "Git",
+    "tags": ["git", "branch", "delete", "remote"]
+  },
+  {
+    "title": "Array Map Method",
+    "description": "Transform array elements using map",
+    "code": "const doubled = [1, 2, 3].map(num => num * 2);\n// Result: [2, 4, 6]",
+    "category": "JavaScript",
+    "tags": ["javascript", "array", "map"]
+  },
+  {
+    "title": "Async/Await Pattern",
+    "description": "Modern async JavaScript pattern",
+    "code": "async function fetchData() {\n  try {\n    const response = await fetch(url);\n    const data = await response.json();\n    return data;\n  } catch (error) {\n    console.error('Error:', error);\n  }\n}",
+    "category": "JavaScript",
+    "tags": ["javascript", "async", "await", "promise"]
+  },
+  {
+    "title": "Destructuring Assignment",
+    "description": "Extract values from objects and arrays",
+    "code": "const { name, age } = person;\nconst [first, second] = array;",
+    "category": "JavaScript",
+    "tags": ["javascript", "destructuring", "es6"]
+  },
+  {
+    "title": "Find Process on Port",
+    "description": "Find which process is using a specific port",
+    "code": "lsof -i :3000",
+    "category": "Terminal",
+    "tags": ["terminal", "port", "process", "debug"]
+  },
+  {
+    "title": "Kill Process by Port",
+    "description": "Kill a process running on a specific port",
+    "code": "kill -9 $(lsof -t -i:3000)",
+    "category": "Terminal",
+    "tags": ["terminal", "kill", "process", "port"]
+  },
+  {
+    "title": "Find Files by Name",
+    "description": "Search for files by name pattern",
+    "code": "find . -name \"*.js\" -type f",
+    "category": "Terminal",
+    "tags": ["terminal", "find", "search", "files"]
+  },
+  {
+    "title": "Disk Usage",
+    "description": "Check disk usage in human-readable format",
+    "code": "du -sh *",
+    "category": "Terminal",
+    "tags": ["terminal", "disk", "usage", "storage"]
+  }
+]
+

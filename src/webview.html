@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Cheatsheets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            padding: 20px;
+            background-color: var(--vscode-editor-background);
+            color: var(--vscode-editor-foreground);
+        }
+
+        .header {
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--vscode-titleBar-activeForeground);
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid var(--vscode-input-border);
+            background-color: var(--vscode-input-background);
+            color: var(--vscode-input-foreground);
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--vscode-focusBorder);
+        }
+
+        .category-section {
+            margin-bottom: 30px;
+        }
+
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--vscode-panel-border);
+            color: var(--vscode-symbolIcon-classForeground);
+        }
+
+        .cheatsheet-item {
+            background-color: var(--vscode-editor-inactiveSelectionBackground);
+            border: 1px solid var(--vscode-panel-border);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .cheatsheet-item:hover {
+            background-color: var(--vscode-list-hoverBackground);
+            border-color: var(--vscode-focusBorder);
+        }
+
+        .cheatsheet-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--vscode-textLink-foreground);
+        }
+
+        .cheatsheet-description {
+            font-size: 13px;
+            margin-bottom: 10px;
+            color: var(--vscode-descriptionForeground);
+        }
+
+        .cheatsheet-code {
+            background-color: var(--vscode-textCodeBlock-background);
+            border: 1px solid var(--vscode-panel-border);
+            border-radius: 4px;
+            padding: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+            margin-bottom: 10px;
+            color: var(--vscode-editor-foreground);
+        }
+
+        .cheatsheet-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            background-color: var(--vscode-badge-background);
+            color: var(--vscode-badge-foreground);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: var(--vscode-descriptionForeground);
+            font-size: 14px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📚 Dev Cheatsheets</h1>
+        <div class="search-container">
+            <input 
+                type="text" 
+                class="search-input" 
+                id="searchInput" 
+                placeholder="Search by title, tags, or category..."
+            />
+        </div>
+    </div>
+
+    <div id="content"></div>
+    <div id="noResults" class="no-results hidden">No cheatsheets found matching your search.</div>
+
+    <script>
+        const vscode = acquireVsCodeApi();
+        let allCheatsheets = [];
+
+        // Listen for messages from the extension
+        window.addEventListener('message', event => {
+            const message = event.data;
+            if (message.type === 'loadCheatsheets') {
+                allCheatsheets = message.data;
+                renderCheatsheets(allCheatsheets);
+            }
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                renderCheatsheets(allCheatsheets);
+                return;
+            }
+
+            const filtered = allCheatsheets.filter(item => {
+                const titleMatch = item.title.toLowerCase().includes(searchTerm);
+                const categoryMatch = item.category.toLowerCase().includes(searchTerm);
+                const tagsMatch = item.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                return titleMatch || categoryMatch || tagsMatch;
+            });
+
+            renderCheatsheets(filtered);
+        });
+
+        function renderCheatsheets(cheatsheets) {
+            const content = document.getElementById('content');
+            const noResults = document.getElementById('noResults');
+
+            if (cheatsheets.length === 0) {
+                content.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+
+            // Group by category
+            const grouped = cheatsheets.reduce((acc, item) => {
+                if (!acc[item.category]) {
+                    acc[item.category] = [];
+                }
+                acc[item.category].push(item);
+                return acc;
+            }, {});
+
+            // Render grouped cheatsheets
+            let html = '';
+            for (const [category, items] of Object.entries(grouped)) {
+                html += `
+                    <div class="category-section">
+                        <h2 class="category-title">${escapeHtml(category)}</h2>
+                        ${items.map(item => `
+                            <div class="cheatsheet-item">
+                                <div class="cheatsheet-title">${escapeHtml(item.title)}</div>
+                                <div class="cheatsheet-description">${escapeHtml(item.description)}</div>
+                                <div class="cheatsheet-code">${escapeHtml(item.code)}</div>
+                                ${item.tags && item.tags.length > 0 ? `
+                                    <div class="cheatsheet-tags">
+                                        ${item.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            content.innerHTML = html;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Request initial data
+        vscode.postMessage({ type: 'ready' });
+    </script>
+</body>
+</html>
+
