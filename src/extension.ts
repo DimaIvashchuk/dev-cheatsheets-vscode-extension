@@ -7,6 +7,7 @@ interface Cheatsheet {
 	description: string;
 	code: string;
 	category: string;
+	subcategory?: string;
 	tags: string[];
 }
 
@@ -70,6 +71,13 @@ function loadCheatsheets(context: vscode.ExtensionContext): Cheatsheet[] {
 
 	// Merge default and custom cheatsheets
 	const allCheatsheets = [...defaultCheatsheets, ...customCheatsheets];
+
+	// Set default subcategory to "Other" if not provided
+	allCheatsheets.forEach(cheat => {
+		if (!cheat.subcategory) {
+			cheat.subcategory = 'Other';
+		}
+	});
 
 	return allCheatsheets;
 }

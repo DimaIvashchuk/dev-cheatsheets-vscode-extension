@@ -5,10 +5,13 @@ A VS Code extension to store and display developer cheat-sheets including regex 
 ## Features
 
 - **📚 Built-in Cheatsheets**: Comes with a curated collection of useful cheat-sheets for Regex, Git, JavaScript, and Terminal commands
-- **🔍 Search & Filter**: Quickly find cheat-sheets by title, tags, or category
+- **🔍 Search & Filter**: Quickly find cheat-sheets by title, tags, category, or subcategory
 - **⚙️ Custom Cheatsheets**: Add your own cheat-sheets via VS Code settings
-- **🎨 Clean UI**: Modern, scrollable interface that respects your VS Code theme
-- **📂 Organized by Category**: Cheat-sheets are grouped by category for easy navigation
+- **🎨 Clean UI**: Modern, dual-pane interface with sidebar navigation that respects your VS Code theme
+- **📂 Organized Hierarchy**: Cheat-sheets are grouped by category and subcategory for easy navigation
+- **🌲 Tree View Navigation**: Sidebar displays an interactive tree view of all cheatsheets
+- **🔽 Collapse/Expand**: Toggle visibility of categories and subcategories
+- **🎯 Quick Navigation**: Click on any item in the sidebar to scroll directly to it in the main content
 
 ## Usage
 
@@ -34,6 +37,7 @@ Add your own cheat-sheets by editing your VS Code settings (`settings.json`):
       "description": "Description of what this does",
       "code": "echo 'Hello World'",
       "category": "Custom",
+      "subcategory": "Bash",
       "tags": ["custom", "bash", "example"]
     }
   ]
@@ -45,6 +49,7 @@ Each cheatsheet object should have:
 - `description` (string): A brief description
 - `code` (string): The code snippet or command
 - `category` (string): Category name (e.g., "Git", "JavaScript", "Terminal")
+- `subcategory` (string, optional): Subcategory name (defaults to "Other" if not provided)
 - `tags` (array): Array of searchable tags
 
 ## Development
@@ -83,11 +88,15 @@ dev-cheatsheets-vscode-extension/
 
 ### 0.0.1
 
-Initial MVP release:
-- Display default cheat-sheets grouped by category
-- Search and filter functionality
+Initial MVP release with enhanced features:
+- Display default cheat-sheets grouped by category and subcategory
+- Sidebar navigation with interactive tree view
+- Collapse/expand functionality for categories and subcategories
+- Click-to-navigate from sidebar to content
+- Search and filter functionality (by title, tags, category, and subcategory)
 - Support for custom user cheat-sheets via settings
-- Clean, theme-aware UI
+- Clean, theme-aware dual-pane UI
+- 15 built-in cheatsheets across multiple categories
 
 ---
 

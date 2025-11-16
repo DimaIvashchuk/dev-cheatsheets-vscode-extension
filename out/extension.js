@@ -81,6 +81,12 @@ function loadCheatsheets(context) {
     const customCheatsheets = config.get('customCheatsheets', []);
     // Merge default and custom cheatsheets
     const allCheatsheets = [...defaultCheatsheets, ...customCheatsheets];
+    // Set default subcategory to "Other" if not provided
+    allCheatsheets.forEach(cheat => {
+        if (!cheat.subcategory) {
+            cheat.subcategory = 'Other';
+        }
+    });
     return allCheatsheets;
 }
 function deactivate() { }

@@ -4,84 +4,761 @@
     "description": "Basic email validation regex pattern",
     "code": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
     "category": "Regex",
+    "subcategory": "Validation",
     "tags": ["regex", "email", "validation"]
   },
   {
-    "title": "URL Regex Pattern",
-    "description": "Match HTTP/HTTPS URLs",
-    "code": "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)",
+    "title": "Only Digits",
+    "description": "Matches strings that contain only digits",
+    "code": "^\\d+$",
     "category": "Regex",
+    "subcategory": "Character classes",
+    "tags": ["regex", "digits", "validation"]
+  },
+  {
+    "title": "URL (Simple)",
+    "description": "Simple URL matcher (http/https)",
+    "code": "^(https?:\\/\\/)?([\\w\\-]+\\.)+[\\w\\-]+(\\/\\S*)?$",
+    "category": "Regex",
+    "subcategory": "Validation",
     "tags": ["regex", "url", "validation"]
   },
   {
-    "title": "Git Undo Last Commit",
-    "description": "Undo the last commit but keep changes",
+    "title": "Match Whole Word",
+    "description": "Find a whole word boundary",
+    "code": "\\bWORD\\b",
+    "category": "Regex",
+    "subcategory": "Boundaries",
+    "tags": ["regex", "word", "boundary"]
+  },
+  {
+    "title": "Capture Group Example",
+    "description": "Capture groups and backreference usage",
+    "code": "([A-Za-z]+)-(\\d+)",
+    "category": "Regex",
+    "subcategory": "Groups",
+    "tags": ["regex", "groups", "capture"]
+  },
+  {
+    "title": "Positive Lookahead (password rule)",
+    "description": "Ensure string contains a digit and a letter (order independent)",
+    "code": "^(?=.*[A-Za-z])(?=.*\\d).+$",
+    "category": "Regex",
+    "subcategory": "Lookaround",
+    "tags": ["regex", "lookahead", "password"]
+  },
+  {
+    "title": "Undo Last Commit (soft)",
+    "description": "Undo last commit but keep changes staged",
     "code": "git reset --soft HEAD~1",
     "category": "Git",
+    "subcategory": "History",
     "tags": ["git", "undo", "commit"]
   },
   {
-    "title": "Git Stash with Message",
-    "description": "Stash changes with a descriptive message",
-    "code": "git stash save \"your message here\"",
+    "title": "Create and Switch Branch",
+    "description": "Create a new branch and switch to it",
+    "code": "git checkout -b feature/name",
     "category": "Git",
-    "tags": ["git", "stash", "save"]
+    "subcategory": "Branching",
+    "tags": ["git", "branch"]
   },
   {
-    "title": "Git Delete Remote Branch",
-    "description": "Delete a branch from remote repository",
-    "code": "git push origin --delete branch-name",
+    "title": "Stash and Apply",
+    "description": "Stash current changes and reapply later",
+    "code": "git stash && git stash apply",
     "category": "Git",
-    "tags": ["git", "branch", "delete", "remote"]
+    "subcategory": "Stashing",
+    "tags": ["git", "stash"]
   },
   {
-    "title": "Array Map Method",
-    "description": "Transform array elements using map",
-    "code": "const doubled = [1, 2, 3].map(num => num * 2);\n// Result: [2, 4, 6]",
-    "category": "JavaScript",
-    "tags": ["javascript", "array", "map"]
+    "title": "Interactive Rebase (squash/rename)",
+    "description": "Start an interactive rebase for the last N commits",
+    "code": "git rebase -i HEAD~3",
+    "category": "Git",
+    "subcategory": "Rewriting",
+    "tags": ["git", "rebase", "history"]
   },
   {
-    "title": "Async/Await Pattern",
-    "description": "Modern async JavaScript pattern",
-    "code": "async function fetchData() {\n  try {\n    const response = await fetch(url);\n    const data = await response.json();\n    return data;\n  } catch (error) {\n    console.error('Error:', error);\n  }\n}",
-    "category": "JavaScript",
-    "tags": ["javascript", "async", "await", "promise"]
+    "title": "Show Commit That Touched File",
+    "description": "List commits that modified a file",
+    "code": "git log --pretty=oneline -- path/to/file",
+    "category": "Git",
+    "subcategory": "History",
+    "tags": ["git", "log", "blame"]
   },
   {
-    "title": "Destructuring Assignment",
-    "description": "Extract values from objects and arrays",
-    "code": "const { name, age } = person;\nconst [first, second] = array;",
-    "category": "JavaScript",
-    "tags": ["javascript", "destructuring", "es6"]
+    "title": "Diff Between Branches",
+    "description": "Show diff between main and feature branch",
+    "code": "git diff main..feature-branch",
+    "category": "Git",
+    "subcategory": "Comparison",
+    "tags": ["git", "diff", "branches"]
   },
   {
-    "title": "Find Process on Port",
-    "description": "Find which process is using a specific port",
-    "code": "lsof -i :3000",
+    "title": "List Files Recursively",
+    "description": "List all files in current directory (human readable sizes)",
+    "code": "ls -alh",
     "category": "Terminal",
-    "tags": ["terminal", "port", "process", "debug"]
+    "subcategory": "File Operations",
+    "tags": ["shell", "ls", "files"]
+  },
+  {
+    "title": "Find Files By Name",
+    "description": "Find files with specific pattern",
+    "code": "find . -name \"*.js\"",
+    "category": "Terminal",
+    "subcategory": "Search",
+    "tags": ["shell", "find", "search"]
   },
   {
     "title": "Kill Process by Port",
-    "description": "Kill a process running on a specific port",
-    "code": "kill -9 $(lsof -t -i:3000)",
+    "description": "Find and kill process listening on port 3000",
+    "code": "lsof -i :3000 | awk 'NR>1 {print $2}' | xargs -r kill -9",
     "category": "Terminal",
-    "tags": ["terminal", "kill", "process", "port"]
+    "subcategory": "Process",
+    "tags": ["shell", "process", "kill"]
   },
   {
-    "title": "Find Files by Name",
-    "description": "Search for files by name pattern",
-    "code": "find . -name \"*.js\" -type f",
+    "title": "Tail with Retry",
+    "description": "Tail a log file and follow new lines",
+    "code": "tail -f /var/log/app.log",
     "category": "Terminal",
-    "tags": ["terminal", "find", "search", "files"]
+    "subcategory": "Logs",
+    "tags": ["shell", "tail", "logs"]
   },
   {
-    "title": "Disk Usage",
-    "description": "Check disk usage in human-readable format",
-    "code": "du -sh *",
+    "title": "Copy File Over SSH",
+    "description": "Copy local file to remote via scp",
+    "code": "scp local.file user@remote:/path/remote.file",
     "category": "Terminal",
-    "tags": ["terminal", "disk", "usage", "storage"]
-  }
+    "subcategory": "Networking",
+    "tags": ["shell", "scp", "ssh"]
+  },
+  {
+    "title": "HTTP GET with curl (pretty)",
+    "description": "Run a GET request and pretty-print JSON if possible",
+    "code": "curl -sS https://api.example.com | jq .",
+    "category": "HTTP/API",
+    "subcategory": "curl",
+    "tags": ["curl", "http", "api", "json"]
+  },
+  {
+    "title": "POST JSON with curl",
+    "description": "Send JSON payload with proper header",
+    "code": "curl -X POST -H \"Content-Type: application/json\" -d '{\"name\":\"John\"}' https://api.example.com",
+    "category": "HTTP/API",
+    "subcategory": "curl",
+    "tags": ["curl", "post", "json"]
+  },
+  {
+    "title": "Check HTTP Status Code Only",
+    "description": "Get only the status code from a response",
+    "code": "curl -o /dev/null -s -w \"%{http_code}\\n\" https://example.com",
+    "category": "HTTP/API",
+    "subcategory": "curl",
+    "tags": ["curl", "status", "http"]
+  },
+  {
+    "title": "Basic Auth with curl",
+    "description": "Call endpoint with Basic Auth",
+    "code": "curl -u username:password https://api.example.com/secure",
+    "category": "HTTP/API",
+    "subcategory": "Auth",
+    "tags": ["curl", "auth", "http"]
+  },
+  {
+    "title": "Retry Request with curl",
+    "description": "Retry a request up to N times",
+    "code": "curl --retry 3 https://api.example.com",
+    "category": "HTTP/API",
+    "subcategory": "curl",
+    "tags": ["curl", "retry", "http"]
+  },
+  {
+    "title": "Simple SELECT",
+    "description": "Select rows with limit",
+    "code": "SELECT id, name FROM users WHERE active = 1 ORDER BY id DESC LIMIT 10;",
+    "category": "SQL",
+    "subcategory": "Selects",
+    "tags": ["sql", "select", "pagination"]
+  },
+  {
+    "title": "Inner Join Example",
+    "description": "Join two tables on a key",
+    "code": "SELECT u.id, u.name, o.total FROM users u INNER JOIN orders o ON u.id = o.user_id;",
+    "category": "SQL",
+    "subcategory": "Joins",
+    "tags": ["sql", "join", "inner join"]
+  },
+  {
+    "title": "Left Join With Nulls",
+    "description": "Keep all users even without orders",
+    "code": "SELECT u.id, u.name, o.total FROM users u LEFT JOIN orders o ON u.id = o.user_id;",
+    "category": "SQL",
+    "subcategory": "Joins",
+    "tags": ["sql", "join", "left join"]
+  },
+  {
+    "title": "Group By & Aggregate",
+    "description": "Count orders per user",
+    "code": "SELECT user_id, COUNT(*) AS orders FROM orders GROUP BY user_id HAVING COUNT(*) > 1;",
+    "category": "SQL",
+    "subcategory": "Aggregation",
+    "tags": ["sql", "group by", "aggregate"]
+  },
+  {
+    "title": "Upsert (Postgres)",
+    "description": "Insert or update on conflict",
+    "code": "INSERT INTO users(id, name) VALUES(1, 'A') ON CONFLICT(id) DO UPDATE SET name = EXCLUDED.name;",
+    "category": "SQL",
+    "subcategory": "DML",
+    "tags": ["sql", "upsert", "postgres"]
+  },
+  {
+    "title": "Map Array to Keys (JS)",
+    "description": "Convert array of objects to map by id",
+    "code": "const map = arr.reduce((acc, x) => (acc[x.id] = x, acc), {});",
+    "category": "JavaScript",
+    "subcategory": "Array",
+    "tags": ["js", "array", "reduce"]
+  },
+  {
+    "title": "Debounce Function",
+    "description": "Debounce implementation wrapper",
+    "code": "function debounce(fn, ms){let t;return (...args)=>{clearTimeout(t);t=setTimeout(()=>fn(...args),ms);}}",
+    "category": "JavaScript",
+    "subcategory": "Utilities",
+    "tags": ["js", "debounce", "performance"]
+  },
+  {
+    "title": "Promise.all with Timeout",
+    "description": "Reject if promises don't resolve in time",
+    "code": "Promise.race([Promise.all(tasks), new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),5000))])",
+    "category": "JavaScript",
+    "subcategory": "Promise",
+    "tags": ["js", "promise", "timeout"]
+  },
+  {
+    "title": "Deep Clone Object (JSON)",
+    "description": "Quick deep clone caveat: no functions/dates",
+    "code": "const clone = JSON.parse(JSON.stringify(obj));",
+    "category": "JavaScript",
+    "subcategory": "Object",
+    "tags": ["js", "clone", "object"]
+  },
+  {
+    "title": "Find Unique Values",
+    "description": "Remove duplicates from array",
+    "code": "const unique = [...new Set(arr)];",
+    "category": "JavaScript",
+    "subcategory": "Array",
+    "tags": ["js", "array", "set"]
+  },
+  {
+    "title": "Build Docker Image",
+    "description": "Build docker image with tag",
+    "code": "docker build -t myapp:latest .",
+    "category": "Docker",
+    "subcategory": "Images",
+    "tags": ["docker", "image", "build"]
+  },
+  {
+    "title": "Run Container with Port",
+    "description": "Run container and map port 3000",
+    "code": "docker run -p 3000:3000 --rm myapp:latest",
+    "category": "Docker",
+    "subcategory": "Containers",
+    "tags": ["docker", "run", "ports"]
+  },
+  {
+    "title": "List Containers (all)",
+    "description": "Show all containers including stopped",
+    "code": "docker ps -a",
+    "category": "Docker",
+    "subcategory": "Containers",
+    "tags": ["docker", "ps"]
+  },
+  {
+    "title": "Remove Dangling Images",
+    "description": "Prune unused images to free space",
+    "code": "docker image prune -f",
+    "category": "Docker",
+    "subcategory": "Cleanup",
+    "tags": ["docker", "prune", "cleanup"]
+  },
+  {
+    "title": "Attach to Container Shell",
+    "description": "Open a shell inside running container",
+    "code": "docker exec -it container_name /bin/bash",
+    "category": "Docker",
+    "subcategory": "Containers",
+    "tags": ["docker", "exec", "shell"]
+  },
+  {
+    "title": "401 vs 403 vs 404 Quick Reminder",
+    "description": "HTTP status short meanings",
+    "code": "401: Unauthorized (auth required), 403: Forbidden (no permission), 404: Not Found",
+    "category": "HTTP/API",
+    "subcategory": "Status",
+    "tags": ["http", "status", "api"]
+  },
+  {
+    "title": "Set JSON Content-Type Header",
+    "description": "Add content-type header in requests",
+    "code": "Content-Type: application/json",
+    "category": "HTTP/API",
+    "subcategory": "Headers",
+    "tags": ["http", "headers", "json"]
+  },
+  {
+    "title": "Bearer Token Header",
+    "description": "Authorization header with bearer token",
+    "code": "Authorization: Bearer <token>",
+    "category": "HTTP/API",
+    "subcategory": "Auth",
+    "tags": ["http", "auth", "bearer"]
+  },
+  {
+    "title": "CORS Quick Fix (dev)",
+    "description": "Enable CORS in express (dev only)",
+    "code": "app.use(require('cors')());",
+    "category": "HTTP/API",
+    "subcategory": "Dev Tips",
+    "tags": ["http", "cors", "express"]
+  },
+  {
+    "title": "Check Open Ports (netstat)",
+    "description": "List listening TCP ports",
+    "code": "netstat -tuln",
+    "category": "Linux",
+    "subcategory": "Networking",
+    "tags": ["linux", "netstat", "network"]
+  },
+  {
+    "title": "Change File Permissions",
+    "description": "Make a script executable",
+    "code": "chmod +x script.sh",
+    "category": "Linux",
+    "subcategory": "Permissions",
+    "tags": ["linux", "chmod", "permissions"]
+  },
+  {
+    "title": "Disk Usage by Folder",
+    "description": "Show readable sizes per folder",
+    "code": "du -sh * | sort -h",
+    "category": "Linux",
+    "subcategory": "Filesystem",
+    "tags": ["linux", "disk", "du"]
+  },
+  {
+    "title": "Check Memory Usage",
+    "description": "Show memory and swap usage",
+    "code": "free -h",
+    "category": "Linux",
+    "subcategory": "System",
+    "tags": ["linux", "memory", "sysinfo"]
+  },
+  {
+    "title": "View System Logs (journalctl tail)",
+    "description": "Follow system logs",
+    "code": "journalctl -f -u myservice.service",
+    "category": "Linux",
+    "subcategory": "Logs",
+    "tags": ["linux", "logs", "journalctl"]
+  },
+  {
+    "title": "Vim: Move to Line",
+    "description": "Jump to specific line in Vim",
+    "code": ":123",
+    "category": "Editor",
+    "subcategory": "Vim",
+    "tags": ["vim", "navigation", "editor"]
+  },
+  {
+    "title": "Vim: Replace in File",
+    "description": "Replace all occurrences in file",
+    "code": ":%s/old/new/g",
+    "category": "Editor",
+    "subcategory": "Vim",
+    "tags": ["vim", "replace", "editing"]
+  },
+  {
+    "title": "VSCode: Toggle Sidebar",
+    "description": "Toggle explorer sidebar",
+    "code": "Ctrl+B (Cmd+B on mac)",
+    "category": "Editor",
+    "subcategory": "VSCode",
+    "tags": ["vscode", "shortcut", "ui"]
+  },
+  {
+    "title": "VSCode: Rename Symbol",
+    "description": "Trigger rename symbol action",
+    "code": "F2",
+    "category": "Editor",
+    "subcategory": "VSCode",
+    "tags": ["vscode", "refactor", "shortcut"]
+  },
+  {
+    "title": "Base64 Encode/Decode (Linux)",
+    "description": "Encode or decode strings to base64",
+    "code": "echo -n 'hello' | base64 && echo 'aGVsbG8=' | base64 --decode",
+    "category": "Terminal",
+    "subcategory": "Utilities",
+    "tags": ["base64", "shell", "encode"]
+  },
+  {
+    "title": "HTTP Status: 204 No Content",
+    "description": "No content — successful request with no body",
+    "code": "204: Successful, no response body",
+    "category": "HTTP/API",
+    "subcategory": "Status",
+    "tags": ["http", "status", "204"]
+  },
+  {
+    "title": "SQL: Pagination (OFFSET/LIMIT)",
+    "description": "Basic pagination example",
+    "code": "SELECT * FROM items ORDER BY id DESC LIMIT 20 OFFSET 40;",
+    "category": "SQL",
+    "subcategory": "Selects",
+    "tags": ["sql", "pagination", "limit"]
+  },
+  {
+    "title": "Git: Show Staged Changes",
+    "description": "Show diff of staged files",
+    "code": "git diff --staged",
+    "category": "Git",
+    "subcategory": "Staging",
+    "tags": ["git", "diff", "staged"]
+  },
+  
+    {
+      "title": "UUID v4 Regex",
+      "description": "Match a UUID v4 format",
+      "code": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "category": "Regex",
+      "subcategory": "Validation",
+      "tags": ["regex", "uuid", "validation"]
+    },
+    {
+      "title": "Hex Color Regex",
+      "description": "Match 3- or 6-digit hex color codes",
+      "code": "^#(?:[0-9a-fA-F]{3}){1,2}$",
+      "category": "Regex",
+      "subcategory": "Validation",
+      "tags": ["regex", "color", "css"]
+    },
+    {
+      "title": "Phone Number Regex (Simple)",
+      "description": "Match international phone numbers",
+      "code": "^\\+?[0-9]{7,14}$",
+      "category": "Regex",
+      "subcategory": "Validation",
+      "tags": ["regex", "phone"]
+    },
+    {
+      "title": "Extract Domain From URL",
+      "description": "Capture domain name from a URL",
+      "code": "https?:\\/\\/(?:www\\.)?([^\\/]+)",
+      "category": "Regex",
+      "subcategory": "Groups",
+      "tags": ["regex", "domain", "url"]
+    },
+    {
+      "title": "Match Multiline Block",
+      "description": "Match everything between /* ... */",
+      "code": "\\/\\*[\\s\\S]*?\\*\\/",
+      "category": "Regex",
+      "subcategory": "Multiline",
+      "tags": ["regex", "multiline"]
+    },
+  
+    {
+      "title": "Delete Local Branch",
+      "description": "Delete a local branch safely",
+      "code": "git branch -d feature/name",
+      "category": "Git",
+      "subcategory": "Branching",
+      "tags": ["git", "branch", "delete"]
+    },
+    {
+      "title": "Delete Remote Branch",
+      "description": "Delete a branch remotely",
+      "code": "git push origin --delete feature/name",
+      "category": "Git",
+      "subcategory": "Branching",
+      "tags": ["git", "remote", "delete"]
+    },
+    {
+      "title": "Fix Commit Message",
+      "description": "Edit the last commit message",
+      "code": "git commit --amend",
+      "category": "Git",
+      "subcategory": "History",
+      "tags": ["git", "amend", "message"]
+    },
+    {
+      "title": "See Stash List",
+      "description": "View all stashed changes",
+      "code": "git stash list",
+      "category": "Git",
+      "subcategory": "Stashing",
+      "tags": ["git", "stash", "list"]
+    },
+    {
+      "title": "Apply Specific Stash",
+      "description": "Apply stash by index",
+      "code": "git stash apply stash@{2}",
+      "category": "Git",
+      "subcategory": "Stashing",
+      "tags": ["git", "stash", "apply"]
+    },
+  
+    {
+      "title": "Show Directory Tree",
+      "description": "Display directory structure recursively",
+      "code": "tree -L 2",
+      "category": "Terminal",
+      "subcategory": "Navigation",
+      "tags": ["terminal", "tree", "files"]
+    },
+    {
+      "title": "Count Files Recursively",
+      "description": "Count how many files in subdirectories",
+      "code": "find . -type f | wc -l",
+      "category": "Terminal",
+      "subcategory": "Search",
+      "tags": ["terminal", "count", "files"]
+    },
+    {
+      "title": "Quick Create File",
+      "description": "Create or update file timestamp",
+      "code": "touch file.txt",
+      "category": "Terminal",
+      "subcategory": "File Operations",
+      "tags": ["terminal", "file", "touch"]
+    },
+    {
+      "title": "Search Text in Files",
+      "description": "Search for a string recursively",
+      "code": "grep -R \"text-to-find\" .",
+      "category": "Terminal",
+      "subcategory": "Search",
+      "tags": ["terminal", "grep", "search"]
+    },
+    {
+      "title": "Open Background Process",
+      "description": "Run program in background",
+      "code": "node server.js &",
+      "category": "Terminal",
+      "subcategory": "Process",
+      "tags": ["terminal", "background", "process"]
+    },
+  
+    {
+      "title": "HTTP PUT with JSON",
+      "description": "Send PUT JSON data",
+      "code": "curl -X PUT -H \"Content-Type: application/json\" -d '{\"name\":\"John\"}' https://api.example.com",
+      "category": "HTTP/API",
+      "subcategory": "curl",
+      "tags": ["curl", "put", "json"]
+    },
+    {
+      "title": "Download File with curl",
+      "description": "Download and save file",
+      "code": "curl -o file.zip https://example.com/file.zip",
+      "category": "HTTP/API",
+      "subcategory": "Download",
+      "tags": ["curl", "download", "file"]
+    },
+    {
+      "title": "Follow Redirects",
+      "description": "Allow curl to follow redirects",
+      "code": "curl -L https://example.com",
+      "category": "HTTP/API",
+      "subcategory": "curl",
+      "tags": ["curl", "redirect"]
+    },
+    {
+      "title": "HTTP HEAD Request",
+      "description": "Get only headers",
+      "code": "curl -I https://example.com",
+      "category": "HTTP/API",
+      "subcategory": "Headers",
+      "tags": ["curl", "headers"]
+    },
+    {
+      "title": "Send Form Data",
+      "description": "Submit HTML form via curl",
+      "code": "curl -F \"file=@image.png\" https://example.com/upload",
+      "category": "HTTP/API",
+      "subcategory": "Upload",
+      "tags": ["curl", "form", "upload"]
+    },
+  
+    {
+      "title": "Delete Rows by Condition",
+      "description": "Delete using WHERE clause",
+      "code": "DELETE FROM users WHERE active = 0;",
+      "category": "SQL",
+      "subcategory": "DML",
+      "tags": ["sql", "delete"]
+    },
+    {
+      "title": "Update with Condition",
+      "description": "Update field based on condition",
+      "code": "UPDATE users SET active = 1 WHERE last_login > NOW() - INTERVAL '30 days';",
+      "category": "SQL",
+      "subcategory": "DML",
+      "tags": ["sql", "update"]
+    },
+    {
+      "title": "Distinct Values",
+      "description": "Get unique rows",
+      "code": "SELECT DISTINCT country FROM users;",
+      "category": "SQL",
+      "subcategory": "Selects",
+      "tags": ["sql", "distinct"]
+    },
+    {
+      "title": "Sort Nulls Last",
+      "description": "Sort with nulls at the end",
+      "code": "SELECT * FROM items ORDER BY price NULLS LAST;",
+      "category": "SQL",
+      "subcategory": "Sorting",
+      "tags": ["sql", "sort", "null"]
+    },
+    {
+      "title": "Window Row Number",
+      "description": "Add row numbers to results",
+      "code": "SELECT id, ROW_NUMBER() OVER (ORDER BY created_at) FROM users;",
+      "category": "SQL",
+      "subcategory": "Window Functions",
+      "tags": ["sql", "window", "row number"]
+    },
+  
+    {
+      "title": "Throttle Function",
+      "description": "Limit function calls",
+      "code": "function throttle(fn, ms){let ok=true;return (...args)=>{if(!ok)return;ok=false;fn(...args);setTimeout(()=>ok=true,ms);}}",
+      "category": "JavaScript",
+      "subcategory": "Utilities",
+      "tags": ["js", "throttle"]
+    },
+    {
+      "title": "Check Empty Object",
+      "description": "Test if object has no keys",
+      "code": "Object.keys(obj).length === 0",
+      "category": "JavaScript",
+      "subcategory": "Object",
+      "tags": ["js", "object"]
+    },
+    {
+      "title": "Deep Merge Objects",
+      "description": "Merge nested objects",
+      "code": "const merged = {...a, ...b, nested: {...a.nested, ...b.nested}};",
+      "category": "JavaScript",
+      "subcategory": "Object",
+      "tags": ["js", "merge"]
+    },
+    {
+      "title": "Wait Function",
+      "description": "Promise-based sleep",
+      "code": "const wait = ms => new Promise(r => setTimeout(r, ms));",
+      "category": "JavaScript",
+      "subcategory": "Utilities",
+      "tags": ["js", "sleep", "async"]
+    },
+    {
+      "title": "Check Promise Result Safely",
+      "description": "Avoid unhandled rejection",
+      "code": "try { await fn(); } catch(e) { console.error(e); }",
+      "category": "JavaScript",
+      "subcategory": "Promise",
+      "tags": ["js", "async", "try"]
+    },
+  
+    {
+      "title": "Docker Logs (Follow)",
+      "description": "Stream container logs",
+      "code": "docker logs -f container_name",
+      "category": "Docker",
+      "subcategory": "Logs",
+      "tags": ["docker", "logs"]
+    },
+    {
+      "title": "Stop and Remove Container",
+      "description": "Stop and remove container in one line",
+      "code": "docker stop myapp && docker rm myapp",
+      "category": "Docker",
+      "subcategory": "Containers",
+      "tags": ["docker", "stop", "rm"]
+    },
+    {
+      "title": "List Docker Networks",
+      "description": "List all docker networks",
+      "code": "docker network ls",
+      "category": "Docker",
+      "subcategory": "Networking",
+      "tags": ["docker", "network"]
+    },
+    {
+      "title": "Inspect Container",
+      "description": "View container details",
+      "code": "docker inspect container_name",
+      "category": "Docker",
+      "subcategory": "Containers",
+      "tags": ["docker", "inspect"]
+    },
+    {
+      "title": "Free Docker Space",
+      "description": "Remove all unused data",
+      "code": "docker system prune -a",
+      "category": "Docker",
+      "subcategory": "Cleanup",
+      "tags": ["docker", "prune"]
+    },
+  
+    {
+      "title": "Check CPU Info",
+      "description": "View CPU details",
+      "code": "lscpu",
+      "category": "Linux",
+      "subcategory": "System",
+      "tags": ["linux", "cpu"]
+    },
+    {
+      "title": "Restart Service",
+      "description": "Restart systemd service",
+      "code": "systemctl restart myservice",
+      "category": "Linux",
+      "subcategory": "Systemd",
+      "tags": ["linux", "systemctl"]
+    },
+    {
+      "title": "Archive Folder",
+      "description": "Create tar.gz archive",
+      "code": "tar -czvf archive.tar.gz folder/",
+      "category": "Linux",
+      "subcategory": "Filesystem",
+      "tags": ["linux", "tar"]
+    },
+    {
+      "title": "Extract Archive",
+      "description": "Extract tar.gz archive",
+      "code": "tar -xzvf archive.tar.gz",
+      "category": "Linux",
+      "subcategory": "Filesystem",
+      "tags": ["linux", "extract", "tar"]
+    },
+    {
+      "title": "Check Open File Count",
+      "description": "Show open file descriptors",
+      "code": "ulimit -n",
+      "category": "Linux",
+      "subcategory": "Limits",
+      "tags": ["linux", "limits"]
+    }
+  
+  
 ]
-

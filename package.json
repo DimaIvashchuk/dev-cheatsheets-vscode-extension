@@ -15,7 +15,7 @@
     "commands": [
       {
         "command": "dev-cheatsheet.open",
-        "title": "Dev Cheatsheets Open"
+        "title": "Dev Cheatsheet: Open"
       }
     ],
     "configuration": {
@@ -39,6 +39,10 @@
               },
               "category": {
                 "type": "string"
+              },
+              "subcategory": {
+                "type": "string",
+                "description": "Optional subcategory (defaults to 'Other' if not provided)"
               },
               "tags": {
                 "type": "array",
