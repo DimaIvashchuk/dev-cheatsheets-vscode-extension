@@ -16,42 +16,23 @@
       {
         "command": "dev-cheatsheet.open",
         "title": "Dev Cheatsheet: Open"
+      },
+      {
+        "command": "dev-cheatsheet.export",
+        "title": "Dev Cheatsheet: Export to Current Folder"
+      },
+      {
+        "command": "dev-cheatsheet.import",
+        "title": "Dev Cheatsheet: Import from File"
       }
     ],
     "configuration": {
       "title": "Dev Cheatsheet",
       "properties": {
-        "dev-cheatsheet.customCheatsheets": {
-          "type": "array",
-          "default": [],
-          "description": "User-defined custom cheat-sheets",
-          "items": {
-            "type": "object",
-            "properties": {
-              "title": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              },
-              "code": {
-                "type": "string"
-              },
-              "category": {
-                "type": "string"
-              },
-              "subcategory": {
-                "type": "string",
-                "description": "Optional subcategory (defaults to 'Other' if not provided)"
-              },
-              "tags": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
-          }
+        "dev-cheatsheet.importedFilePath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to an external JSON file with additional cheatsheets"
         }
       }
     }
