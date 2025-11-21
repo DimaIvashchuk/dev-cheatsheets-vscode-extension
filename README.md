@@ -2,6 +2,10 @@
 
 A VS Code extension to store and display developer cheat-sheets like regex patterns, git commands, code snippets, terminal tricks, and more.
 
+## 🎥 Preview
+
+![Preview](/media/preview.webp)
+
 ## Features
 
 - **📚 Built-in Cheatsheets**: Comes with a curated collection of 100+ useful cheat-sheets for Regex, Git, JavaScript, SQL, Docker, Linux, and more

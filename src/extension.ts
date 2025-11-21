@@ -18,7 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const openCommand = vscode.commands.registerCommand('dev-cheatsheet.open', () => {
 		const panel = vscode.window.createWebviewPanel(
 			'devCheatsheet',
-			'Dev Cheatsheets Open',
+			'Dev Cheatsheets',
 			vscode.ViewColumn.One,
 			{
 				enableScripts: true,

@@ -42,7 +42,7 @@ function activate(context) {
     console.log('Dev Cheatsheet extension is now active!');
     // Command: Open cheatsheets viewer
     const openCommand = vscode.commands.registerCommand('dev-cheatsheet.open', () => {
-        const panel = vscode.window.createWebviewPanel('devCheatsheet', 'Dev Cheatsheets Open', vscode.ViewColumn.One, {
+        const panel = vscode.window.createWebviewPanel('devCheatsheet', 'Dev Cheatsheets', vscode.ViewColumn.One, {
             enableScripts: true,
             retainContextWhenHidden: true
         });
