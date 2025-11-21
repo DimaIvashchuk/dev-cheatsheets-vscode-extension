@@ -1,6 +1,6 @@
 # Dev Cheatsheet
 
-A VS Code extension to store and display developer cheat-sheets including regex patterns, git commands, code snippets, terminal tricks, and more.
+A VS Code extension to store and display developer cheat-sheets like regex patterns, git commands, code snippets, terminal tricks, and more.
 
 ## Features
 
@@ -85,55 +85,5 @@ Create a JSON file (e.g., `my-cheats.json`):
 Then import the file using `Dev Cheatsheet: Import from File`.
 
 The imported cheatsheets are automatically merged with the default ones and will persist across VS Code sessions.
-
-## Development
-
-To run the extension in development mode:
-
-1. Clone this repository
-2. Run `npm install` to install dependencies
-3. Press `F5` to open a new VS Code window with the extension loaded
-4. Run the command `Dev Cheatsheets Open` from the Command Palette
-
-To compile TypeScript:
-```bash
-npm run compile
-```
-
-To watch for changes:
-```bash
-npm run watch
-```
-
-## File Structure
-
-```
-dev-cheatsheets-vscode-extension/
-├── data/
-│   └── cheats.json          # Default cheat-sheets
-├── src/
-│   ├── extension.ts         # Main extension logic
-│   └── webview.html         # Webview UI
-├── package.json             # Extension manifest
-└── README.md
-```
-
-## Release Notes
-
-### 0.0.1
-
-Initial MVP release with comprehensive features:
-- Display default cheat-sheets grouped by category and subcategory
-- Sidebar navigation with interactive tree view
-- Collapse/expand functionality for categories and subcategories (collapsed by default)
-- Click-to-navigate from sidebar to content (auto-expands categories)
-- Search and filter functionality (by title, tags, category, and subcategory)
-- **Export command**: Export default cheatsheets to your workspace folder for editing
-- **Import command**: Import custom cheatsheets from external JSON files
-- Copy to clipboard button for each code snippet
-- Clean, theme-aware dual-pane UI
-- 100+ built-in cheatsheets across multiple categories (Regex, Git, Terminal, SQL, Docker, Linux, JavaScript, HTTP/API, Editor)
-
----
 
 **Enjoy!**

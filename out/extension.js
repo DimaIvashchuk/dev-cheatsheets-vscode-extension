@@ -47,11 +47,12 @@ function activate(context) {
             retainContextWhenHidden: true
         });
         // Load webview HTML
-        const htmlPath = path.join(context.extensionPath, 'src', 'webview.html');
-        let html = fs.readFileSync(htmlPath, 'utf8');
-        // Set the webview's HTML content
+        let htmlPath = path.join(context.extensionPath, 'out', 'webview.html');
+        if (!fs.existsSync(htmlPath)) {
+            htmlPath = path.join(context.extensionPath, 'src', 'webview.html');
+        }
+        const html = fs.readFileSync(htmlPath, 'utf8');
         panel.webview.html = html;
-        // Handle messages from the webview
         panel.webview.onDidReceiveMessage(message => {
             if (message.type === 'ready') {
                 // Load and merge cheatsheets

@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Cheatsheets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--vscode-editor-background);
+            color: var(--vscode-editor-foreground);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background-color: var(--vscode-sideBar-background);
+            border-right: 1px solid var(--vscode-sideBar-border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--vscode-sideBar-border);
+        }
+
+        .sidebar-title {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--vscode-sideBarTitle-foreground);
+            margin-bottom: 10px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 6px 8px;
+            font-size: 13px;
+            border: 1px solid var(--vscode-input-border);
+            background-color: var(--vscode-input-background);
+            color: var(--vscode-input-foreground);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--vscode-focusBorder);
+        }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 5px 0;
+        }
+
+        /* Tree View Styles */
+        .tree-category {
+            margin: 2px 0;
+        }
+
+        .tree-category-header {
+            display: flex;
+            align-items: center;
+            padding: 4px 8px;
+            cursor: pointer;
+            user-select: none;
+            font-size: 13px;
+            color: var(--vscode-sideBar-foreground);
+        }
+
+        .tree-category-header:hover {
+            background-color: var(--vscode-list-hoverBackground);
+        }
+
+        .tree-category-header.active {
+            background-color: var(--vscode-list-activeSelectionBackground);
+            color: var(--vscode-list-activeSelectionForeground);
+        }
+
+        .tree-icon {
+            margin-right: 4px;
+            font-size: 11px;
+            transition: transform 0.2s;
+        }
+
+        .tree-icon.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .tree-category-content {
+            padding-left: 16px;
+            display: none;
+        }
+
+        .tree-category-content.expanded {
+            display: block;
+        }
+
+        .tree-subcategory {
+            margin: 2px 0;
+        }
+
+        .tree-subcategory-header {
+            display: flex;
+            align-items: center;
+            padding: 4px 8px;
+            cursor: pointer;
+            user-select: none;
+            font-size: 13px;
+            color: var(--vscode-sideBar-foreground);
+        }
+
+        .tree-subcategory-header:hover {
+            background-color: var(--vscode-list-hoverBackground);
+        }
+
+        .tree-subcategory-header.active {
+            background-color: var(--vscode-list-activeSelectionBackground);
+            color: var(--vscode-list-activeSelectionForeground);
+        }
+
+        .tree-subcategory-content {
+            padding-left: 16px;
+            display: none;
+        }
+
+        .tree-subcategory-content.expanded {
+            display: block;
+        }
+
+        .tree-item {
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--vscode-sideBar-foreground);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tree-item:hover {
+            background-color: var(--vscode-list-hoverBackground);
+        }
+
+        .tree-item.selected {
+            background-color: var(--vscode-list-activeSelectionBackground);
+            color: var(--vscode-list-activeSelectionForeground);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .content-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--vscode-panel-border);
+        }
+
+        .content-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--vscode-titleBar-activeForeground);
+        }
+
+        .content-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .category-section {
+            margin-bottom: 30px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .category-toggle {
+            font-size: 14px;
+            margin-right: 8px;
+            transition: transform 0.2s;
+        }
+
+        .category-toggle.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--vscode-symbolIcon-classForeground);
+        }
+
+        .category-content {
+            display: block;
+        }
+
+        .category-content.collapsed {
+            display: none;
+        }
+
+        .subcategory-section {
+            margin-bottom: 20px;
+            margin-left: 20px;
+        }
+
+        .subcategory-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .subcategory-toggle {
+            font-size: 12px;
+            margin-right: 6px;
+            transition: transform 0.2s;
+        }
+
+        .subcategory-toggle.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .subcategory-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--vscode-symbolIcon-variableForeground);
+        }
+
+        .subcategory-content {
+            display: block;
+        }
+
+        .subcategory-content.collapsed {
+            display: none;
+        }
+
+        .cheatsheet-item {
+            background-color: var(--vscode-textCodeBlock-background);
+            border: 1px solid var(--vscode-panel-border);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 12px;
+            scroll-margin-top: 20px;
+        }
+
+        .cheatsheet-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--vscode-textLink-foreground);
+        }
+
+        .cheatsheet-description {
+            font-size: 13px;
+            margin-bottom: 10px;
+            color: var(--vscode-descriptionForeground);
+        }
+
+        .cheatsheet-code-container {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .cheatsheet-code {
+            background-color: var(--vscode-editor-inactiveSelectionBackground);
+            border: 1px solid var(--vscode-panel-border);
+            border-radius: 4px;
+            padding: 12px;
+            padding-right: 50px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+            color: var(--vscode-editor-foreground);
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: var(--vscode-button-background);
+            color: var(--vscode-button-foreground);
+            border: none;
+            border-radius: 3px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .copy-button:hover {
+            background-color: var(--vscode-button-hoverBackground);
+        }
+
+        .copy-button.copied {
+            background-color: var(--vscode-inputValidation-infoBackground);
+            color: var(--vscode-inputValidation-infoForeground);
+        }
+
+        .copy-icon {
+            font-size: 12px;
+        }
+
+        .cheatsheet-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            background-color: var(--vscode-badge-background);
+            color: var(--vscode-badge-foreground);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: var(--vscode-descriptionForeground);
+            font-size: 14px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Scrollbar Styles */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--vscode-scrollbarSlider-background);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--vscode-scrollbarSlider-background);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--vscode-scrollbarSlider-hoverBackground);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">Cheatsheets</div>
+            <input 
+                type="text" 
+                class="search-input" 
+                id="searchInput" 
+                placeholder="Search..."
+            />
+        </div>
+        <div class="sidebar-content" id="sidebarTree"></div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="content-header">
+            <h1 class="content-title">📚 Dev Cheatsheets</h1>
+        </div>
+        <div class="content-body" id="contentBody">
+            <div id="content"></div>
+            <div id="noResults" class="no-results hidden">No cheatsheets found matching your search.</div>
+        </div>
+    </div>
+
+    <script>
+        const vscode = acquireVsCodeApi();
+        let allCheatsheets = [];
+        let collapsedCategories = new Set();
+        let collapsedSubcategories = new Set();
+        let isInitialLoad = true;
+
+        // Listen for messages from the extension
+        window.addEventListener('message', event => {
+            const message = event.data;
+            if (message.type === 'loadCheatsheets') {
+                allCheatsheets = message.data;
+                
+                // Initialize all categories and subcategories as collapsed on first load
+                if (isInitialLoad) {
+                    initializeCollapsedState(allCheatsheets);
+                    isInitialLoad = false;
+                }
+                
+                renderSidebar(allCheatsheets);
+                renderContent(allCheatsheets);
+            }
+        });
+
+        function initializeCollapsedState(cheatsheets) {
+            // Group by category and subcategory
+            const grouped = {};
+            cheatsheets.forEach(item => {
+                if (!grouped[item.category]) {
+                    grouped[item.category] = {};
+                }
+                if (!grouped[item.category][item.subcategory]) {
+                    grouped[item.category][item.subcategory] = [];
+                }
+                grouped[item.category][item.subcategory].push(item);
+            });
+
+            // Add all categories to collapsed set
+            for (const category of Object.keys(grouped)) {
+                const categoryKey = `cat-${category}`;
+                collapsedCategories.add(categoryKey);
+                
+                // Add all subcategories to collapsed set
+                for (const subcategory of Object.keys(grouped[category])) {
+                    const subcategoryKey = `subcat-${category}-${subcategory}`;
+                    collapsedSubcategories.add(subcategoryKey);
+                }
+            }
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                renderSidebar(allCheatsheets);
+                renderContent(allCheatsheets);
+                return;
+            }
+
+            const filtered = allCheatsheets.filter(item => {
+                const titleMatch = item.title.toLowerCase().includes(searchTerm);
+                const categoryMatch = item.category.toLowerCase().includes(searchTerm);
+                const subcategoryMatch = item.subcategory.toLowerCase().includes(searchTerm);
+                const tagsMatch = item.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                return titleMatch || categoryMatch || subcategoryMatch || tagsMatch;
+            });
+
+            renderSidebar(filtered);
+            renderContent(filtered);
+        });
+
+        function renderSidebar(cheatsheets) {
+            const sidebar = document.getElementById('sidebarTree');
+            
+            if (cheatsheets.length === 0) {
+                sidebar.innerHTML = '<div class="no-results" style="padding: 20px 10px;">No results</div>';
+                return;
+            }
+
+            // Group by category and subcategory
+            const grouped = {};
+            cheatsheets.forEach(item => {
+                if (!grouped[item.category]) {
+                    grouped[item.category] = {};
+                }
+                if (!grouped[item.category][item.subcategory]) {
+                    grouped[item.category][item.subcategory] = [];
+                }
+                grouped[item.category][item.subcategory].push(item);
+            });
+
+            let html = '';
+            for (const [category, subcategories] of Object.entries(grouped)) {
+                const categoryKey = `cat-${category}`;
+                const isCollapsed = collapsedCategories.has(categoryKey);
+                
+                html += `
+                    <div class="tree-category">
+                        <div class="tree-category-header" onclick="toggleCategory('${escapeHtml(categoryKey)}')">
+                            <span class="tree-icon ${isCollapsed ? 'collapsed' : ''}">▼</span>
+                            <span>${escapeHtml(category)}</span>
+                        </div>
+                        <div class="tree-category-content ${isCollapsed ? '' : 'expanded'}">
+                `;
+
+                for (const [subcategory, items] of Object.entries(subcategories)) {
+                    const subcategoryKey = `subcat-${category}-${subcategory}`;
+                    const isSubCollapsed = collapsedSubcategories.has(subcategoryKey);
+                    
+                    html += `
+                        <div class="tree-subcategory">
+                            <div class="tree-subcategory-header" onclick="toggleSubcategory('${escapeHtml(subcategoryKey)}')">
+                                <span class="tree-icon ${isSubCollapsed ? 'collapsed' : ''}">▼</span>
+                                <span>${escapeHtml(subcategory)}</span>
+                            </div>
+                            <div class="tree-subcategory-content ${isSubCollapsed ? '' : 'expanded'}">
+                    `;
+
+                    items.forEach((item, index) => {
+                        const itemId = `item-${category}-${subcategory}-${index}`;
+                        html += `
+                            <div class="tree-item" onclick="scrollToItem('${escapeHtml(itemId)}')" id="tree-${escapeHtml(itemId)}">
+                                ${escapeHtml(item.title)}
+                            </div>
+                        `;
+                    });
+
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                }
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+
+            sidebar.innerHTML = html;
+        }
+
+        function renderContent(cheatsheets) {
+            const content = document.getElementById('content');
+            const noResults = document.getElementById('noResults');
+
+            if (cheatsheets.length === 0) {
+                content.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+
+            // Group by category and subcategory
+            const grouped = {};
+            cheatsheets.forEach(item => {
+                if (!grouped[item.category]) {
+                    grouped[item.category] = {};
+                }
+                if (!grouped[item.category][item.subcategory]) {
+                    grouped[item.category][item.subcategory] = [];
+                }
+                grouped[item.category][item.subcategory].push(item);
+            });
+
+            let html = '';
+            for (const [category, subcategories] of Object.entries(grouped)) {
+                const categoryKey = `content-cat-${category}`;
+                const isCollapsed = collapsedCategories.has(`cat-${category}`);
+                
+                html += `
+                    <div class="category-section">
+                        <div class="category-header" onclick="toggleCategoryContent('${escapeHtml(category)}')">
+                            <span class="category-toggle ${isCollapsed ? 'collapsed' : ''}">▼</span>
+                            <h2 class="category-title">${escapeHtml(category)}</h2>
+                        </div>
+                        <div class="category-content ${isCollapsed ? 'collapsed' : ''}">
+                `;
+
+                for (const [subcategory, items] of Object.entries(subcategories)) {
+                    const subcategoryKey = `content-subcat-${category}-${subcategory}`;
+                    const isSubCollapsed = collapsedSubcategories.has(`subcat-${category}-${subcategory}`);
+                    
+                    html += `
+                        <div class="subcategory-section">
+                            <div class="subcategory-header" onclick="toggleSubcategoryContent('${escapeHtml(category)}', '${escapeHtml(subcategory)}')">
+                                <span class="subcategory-toggle ${isSubCollapsed ? 'collapsed' : ''}">▼</span>
+                                <h3 class="subcategory-title">${escapeHtml(subcategory)}</h3>
+                            </div>
+                            <div class="subcategory-content ${isSubCollapsed ? 'collapsed' : ''}">
+                    `;
+
+                    items.forEach((item, index) => {
+                        const itemId = `item-${category}-${subcategory}-${index}`;
+                        const codeId = `code-${category}-${subcategory}-${index}`;
+                        html += `
+                            <div class="cheatsheet-item" id="${escapeHtml(itemId)}">
+                                <div class="cheatsheet-title">${escapeHtml(item.title)}</div>
+                                <div class="cheatsheet-description">${escapeHtml(item.description)}</div>
+                                <div class="cheatsheet-code-container">
+                                    <pre class="cheatsheet-code" id="${escapeHtml(codeId)}">${escapeHtml(item.code)}</pre>
+                                    <button class="copy-button" onclick="copyCode('${escapeHtml(codeId)}', this)" title="Copy to clipboard">
+                                        <span class="copy-icon">📋</span>
+                                    </button>
+                                </div>
+                                ${item.tags && item.tags.length > 0 ? `
+                                    <div class="cheatsheet-tags">
+                                        ${item.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    });
+
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                }
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+
+            content.innerHTML = html;
+        }
+
+        function toggleCategory(categoryKey) {
+            if (collapsedCategories.has(categoryKey)) {
+                collapsedCategories.delete(categoryKey);
+            } else {
+                collapsedCategories.add(categoryKey);
+            }
+            
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filtered = searchTerm === '' ? allCheatsheets : allCheatsheets.filter(item => {
+                const titleMatch = item.title.toLowerCase().includes(searchTerm);
+                const categoryMatch = item.category.toLowerCase().includes(searchTerm);
+                const subcategoryMatch = item.subcategory.toLowerCase().includes(searchTerm);
+                const tagsMatch = item.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                return titleMatch || categoryMatch || subcategoryMatch || tagsMatch;
+            });
+            
+            renderSidebar(filtered);
+        }
+
+        function toggleSubcategory(subcategoryKey) {
+            if (collapsedSubcategories.has(subcategoryKey)) {
+                collapsedSubcategories.delete(subcategoryKey);
+            } else {
+                collapsedSubcategories.add(subcategoryKey);
+            }
+            
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filtered = searchTerm === '' ? allCheatsheets : allCheatsheets.filter(item => {
+                const titleMatch = item.title.toLowerCase().includes(searchTerm);
+                const categoryMatch = item.category.toLowerCase().includes(searchTerm);
+                const subcategoryMatch = item.subcategory.toLowerCase().includes(searchTerm);
+                const tagsMatch = item.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                return titleMatch || categoryMatch || subcategoryMatch || tagsMatch;
+            });
+            
+            renderSidebar(filtered);
+        }
+
+        function toggleCategoryContent(category) {
+            const categoryKey = `cat-${category}`;
+            if (collapsedCategories.has(categoryKey)) {
+                collapsedCategories.delete(categoryKey);
+            } else {
+                collapsedCategories.add(categoryKey);
+            }
+            
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filtered = searchTerm === '' ? allCheatsheets : allCheatsheets.filter(item => {
+                const titleMatch = item.title.toLowerCase().includes(searchTerm);
+                const categoryMatch = item.category.toLowerCase().includes(searchTerm);
+                const subcategoryMatch = item.subcategory.toLowerCase().includes(searchTerm);
+                const tagsMatch = item.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                return titleMatch || categoryMatch || subcategoryMatch || tagsMatch;
+            });
+            
+            renderContent(filtered);
+            renderSidebar(filtered);
+        }
+
+        function toggleSubcategoryContent(category, subcategory) {
+            const subcategoryKey = `subcat-${category}-${subcategory}`;
+            if (collapsedSubcategories.has(subcategoryKey)) {
+                collapsedSubcategories.delete(subcategoryKey);
+            } else {
+                collapsedSubcategories.add(subcategoryKey);
+            }
+            
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filtered = searchTerm === '' ? allCheatsheets : allCheatsheets.filter(item => {
+                const titleMatch = item.title.toLowerCase().includes(searchTerm);
+                const categoryMatch = item.category.toLowerCase().includes(searchTerm);
+                const subcategoryMatch = item.subcategory.toLowerCase().includes(searchTerm);
+                const tagsMatch = item.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                return titleMatch || categoryMatch || subcategoryMatch || tagsMatch;
+            });
+            
+            renderContent(filtered);
+            renderSidebar(filtered);
+        }
+
+        function scrollToItem(itemId) {
+            // Parse itemId to extract category and subcategory
+            // itemId format: item-{category}-{subcategory}-{index}
+            const parts = itemId.split('-');
+            if (parts.length >= 4) {
+                // Reconstruct category and subcategory (they might contain hyphens)
+                const itemPrefix = parts[0]; // "item"
+                const index = parts[parts.length - 1]; // last part is index
+                
+                // Everything between "item" and index is category-subcategory
+                const middleParts = parts.slice(1, -1);
+                
+                // Find the split point - we need to match against actual data
+                // For now, let's use a simpler approach: iterate through cheatsheets to find matching item
+                let category = '';
+                let subcategory = '';
+                
+                for (const item of allCheatsheets) {
+                    const testId = `item-${item.category}-${item.subcategory}-`;
+                    if (itemId.startsWith(testId)) {
+                        category = item.category;
+                        subcategory = item.subcategory;
+                        break;
+                    }
+                }
+                
+                if (category && subcategory) {
+                    const categoryKey = `cat-${category}`;
+                    const subcategoryKey = `subcat-${category}-${subcategory}`;
+                    
+                    // Expand category if collapsed
+                    if (collapsedCategories.has(categoryKey)) {
+                        collapsedCategories.delete(categoryKey);
+                    }
+                    
+                    // Expand subcategory if collapsed
+                    if (collapsedSubcategories.has(subcategoryKey)) {
+                        collapsedSubcategories.delete(subcategoryKey);
+                    }
+                    
+                    // Re-render content to show expanded state
+                    const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+                    const filtered = searchTerm === '' ? allCheatsheets : allCheatsheets.filter(item => {
+                        const titleMatch = item.title.toLowerCase().includes(searchTerm);
+                        const categoryMatch = item.category.toLowerCase().includes(searchTerm);
+                        const subcategoryMatch = item.subcategory.toLowerCase().includes(searchTerm);
+                        const tagsMatch = item.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                        return titleMatch || categoryMatch || subcategoryMatch || tagsMatch;
+                    });
+                    
+                    renderContent(filtered);
+                    renderSidebar(filtered);
+                }
+            }
+            
+            // Remove previous selection
+            document.querySelectorAll('.tree-item.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // Add selection to clicked item
+            const treeItem = document.getElementById(`tree-${itemId}`);
+            if (treeItem) {
+                treeItem.classList.add('selected');
+            }
+            
+            // Scroll to the item in content (with slight delay to ensure rendering is complete)
+            setTimeout(() => {
+                const element = document.getElementById(itemId);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    // Highlight effect
+                    element.style.transition = 'background-color 0.3s';
+                    const originalBg = element.style.backgroundColor;
+                    element.style.backgroundColor = 'var(--vscode-list-activeSelectionBackground)';
+                    setTimeout(() => {
+                        element.style.backgroundColor = originalBg;
+                    }, 1000);
+                }
+            }, 100);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function copyCode(codeId, buttonElement) {
+            const codeElement = document.getElementById(codeId);
+            if (!codeElement) return;
+
+            const code = codeElement.textContent;
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(code).then(() => {
+                // Update button to show "Copied!"
+                const copyIcon = buttonElement.querySelector('.copy-icon');
+                const originalIcon = copyIcon.textContent;
+                
+                copyIcon.textContent = '✓';
+                buttonElement.classList.add('copied');
+                
+                // Reset after 2 seconds
+                setTimeout(() => {
+                    copyIcon.textContent = originalIcon;
+                    buttonElement.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy code:', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = code;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-9999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    const copyText = buttonElement.querySelector('.copy-text');
+                    const copyIcon = buttonElement.querySelector('.copy-icon');
+                    copyText.textContent = 'Copied!';
+                    copyIcon.textContent = '✓';
+                    buttonElement.classList.add('copied');
+                    setTimeout(() => {
+                        copyText.textContent = 'Copy';
+                        copyIcon.textContent = '📋';
+                        buttonElement.classList.remove('copied');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Fallback copy failed:', err);
+                }
+                document.body.removeChild(textArea);
+            });
+        }
+
+        // Request initial data
+        vscode.postMessage({ type: 'ready' });
+    </script>
+</body>
+</html>

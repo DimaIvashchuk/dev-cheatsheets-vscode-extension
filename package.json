@@ -4,10 +4,47 @@
   "description": "Store and display developer cheat-sheets (regex patterns, git commands, code snippets, terminal tricks, etc.)",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.106.0"
+    "vscode": "^1.60.0"
   },
+  "publisher": "dmytro-ivashchuk",
+  "author": {
+    "name": "Dmytro Ivashchuk"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DimaIvashchuk/dev-cheatsheets-vscode-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DimaIvashchuk/dev-cheatsheets-vscode-extension/issues"
+  },
+  "homepage": "https://github.com/DimaIvashchuk/dev-cheatsheets-vscode-extension/blob/main/README.md",
   "categories": [
+    "Snippets",
+    "Education",
     "Other"
+  ],
+  "keywords": [
+    "cheatsheet",
+    "cheat sheet",
+    "cheatsheets",
+    "reference",
+    "snippets",
+    "code snippets",
+    "regex",
+    "git",
+    "docker",
+    "terminal",
+    "bash",
+    "sql",
+    "javascript",
+    "linux",
+    "commands",
+    "quick reference",
+    "developer tools",
+    "productivity",
+    "documentation",
+    "learning"
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
@@ -39,21 +76,22 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
+    "compile": "tsc -p ./ && npm run copy-webview",
+    "copy-webview": "node -e \"require('fs').mkdirSync('out', {recursive: true})\" && node -e \"require('fs').copyFileSync('src/webview.html', 'out/webview.html')\"",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.106.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
+    "@types/vscode": "^1.60.0",
     "@typescript-eslint/eslint-plugin": "^8.42.0",
     "@typescript-eslint/parser": "^8.42.0",
-    "eslint": "^9.34.0",
-    "typescript": "^5.9.2",
     "@vscode/test-cli": "^0.0.11",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.34.0",
+    "typescript": "^5.9.2"
   }
 }
