@@ -2,7 +2,7 @@
   "name": "dev-cheatsheet",
   "displayName": "Dev Cheatsheet",
   "description": "Store and display developer cheat-sheets (regex patterns, git commands, code snippets, terminal tricks, etc.)",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.60.0"
   },
